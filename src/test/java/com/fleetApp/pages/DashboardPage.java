@@ -10,8 +10,11 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//*[@id=\"user-menu\"]/ul/li[4]/a")
     public WebElement logout;
 
-    @FindBy(xpath = "h1[@class='oro-subtitle']")
+    @FindBy(xpath = "//*[@id=\"container\"]/div[2]/div[1]/div/div/div[1]/div/h1")
     public WebElement homepageName;
+
+    @FindBy(xpath = "//*[@id=\"progressbar\"]/div/div")
+    public WebElement loadingBar;
 
     public void logout(){
         fullName.click();
