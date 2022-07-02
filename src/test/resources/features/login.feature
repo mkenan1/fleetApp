@@ -6,6 +6,7 @@ Feature: Fleet App Login feature
 
   Background: For the scenarios in the feature file, user is expected to be on the login page
     Given The user is on the login page
+
   @NV-1307
   Scenario Outline: Login as a truck driver with valid credentials
     When User enters  truck driver "<username>" and "<password>" and clicks log in button
@@ -35,15 +36,26 @@ Feature: Fleet App Login feature
       | Dashboard    | storemanager51 | UserUser123 |
       | Dashboard    | storemanager87 | UserUser123 |
 
+  @NV-1345
+  Scenario: The system shouldn't allow users to access the application without providing credentials
+    When User logs in and gets the url and log out
+    And User tries to log in with the same url
+    Then User can not login and see "Login" as current title
 
-  Scenario Outline: Can not login with invalid credentials - Negative Scenario
+  @NV-1346
+  Scenario Outline: User see error message because of invalid credentials
     When The user tries to login with "<username>" and "<password>"
-    Then The user can not login and page title is "Login"
+    Then The user can not login and see "Invalid user name or password." message
     Examples:
-      | username        | password    |
-      | salesmanager101 |             |
-      |                 | UserUser123 |
-      |                 |             |
-      | abcdefgh        | UserUser123 |
-      | storemanager51  | aad3412!    |
-      | asdaw           | sdf323'+%   |
+      | username       | password    |
+      | abcdefgh       | UserUser123 |
+      | storemanager51 | aad3412!    |
+@wip
+  Scenario Outline: User see error message because of providing no credentials
+    When The user tries to login with "<username>" and "<password>"
+    Then The user can not login and the page title is "Login"
+    Examples:
+      | username       | password    |
+      |                | UserUser123 |
+      | storemanager51 |             |
+      |                |             |

@@ -19,7 +19,8 @@ public class Login_Step_Definitions {
 
     BasePage loginPage=new BasePage();
     DashboardPage dashboardPage=new DashboardPage();
-    WebDriverWait wait=new WebDriverWait(Driver.getDriver(),40);
+    String currentUrl;
+
     @Given("The user is on the login page")
     public void the_user_is_on_the_login_page() {
         Driver.getDriver().get(ConfigurationReader.getProperty("navfortLoginUrl"));
@@ -32,7 +33,7 @@ public class Login_Step_Definitions {
     @Then("User should see the {string} for truck driver")
     public void user_should_see_the_for_truck_driver(String string) {
 
-        wait.until(ExpectedConditions.invisibilityOf(dashboardPage.loadingBar));
+       loginPage.waitUntilLoaderScreenDisappear();
         Assert.assertTrue(dashboardPage.homepageName.getText().equals(string));
         dashboardPage.fullName.click();
         dashboardPage.logout.click();
@@ -47,7 +48,7 @@ public class Login_Step_Definitions {
 
     @Then("User should see the {string} for sales manager")
     public void userShouldSeeTheForSalesManager(String string3) {
-        wait.until(ExpectedConditions.invisibilityOf(dashboardPage.loadingBar));
+        loginPage.waitUntilLoaderScreenDisappear();
         Assert.assertTrue(dashboardPage.homepageName.getText().equals(string3));
         dashboardPage.fullName.click();
         dashboardPage.logout.click();
@@ -60,19 +61,47 @@ public class Login_Step_Definitions {
 
     @Then("User should see the {string} for store manager")
     public void userShouldSeeTheForStoreManager(String string4) {
-        wait.until(ExpectedConditions.invisibilityOf(dashboardPage.loadingBar));
+        loginPage.waitUntilLoaderScreenDisappear();
         Assert.assertTrue(dashboardPage.homepageName.getText().equals(string4));
         dashboardPage.fullName.click();
         dashboardPage.logout.click();
     }
+    //TC04
+    @When("User logs in and gets the url and log out")
+    public void userLogsInAndGetsTheUrlAndLogOut() {
+        loginPage.login("user1","UserUser123");
 
+        loginPage.waitUntilLoaderScreenDisappear();
+        currentUrl=Driver.getDriver().getCurrentUrl();
+        BrowserUtils.sleep(5);
+        dashboardPage.logout();
+        BrowserUtils.sleep(5);
+    }
+
+    @And("User tries to log in with the same url")
+    public void userTriesToLogInWithTheSameUrl() {
+        Driver.getDriver().get(currentUrl);
+    }
+
+    @Then("User can not login and see {string} as current title")
+    public void userCanNotLoginAndSeeAsCurrentTitle(String arg0) {
+        Assert.assertTrue(Driver.getDriver().getTitle().equals(arg0));
+    }
+    //TC05
     @When("The user tries to login with {string} and {string}")
     public void theUserTriesToLoginWithAnd(String string5, String string6) {
         loginPage.login(string5,string6);
     }
 
-    @Then("The user can not login and page title is {string}")
-    public void theUserCanNotLoginAndPageTitleIs(String title) {
-        Assert.assertTrue(Driver.getDriver().getTitle().equals("Login"));
+
+    @Then("The user can not login and see {string} message")
+    public void theUserCanNotLoginAndSeeMessage(String message) {
+        Assert.assertEquals(message,loginPage.invalidMessage.getText());
+    }
+
+
+    @Then("The user can not login and the page title is {string}")
+    public void theUserCanNotLoginAndThePageTitleIs(String title) {
+        Assert.assertTrue(Driver.getDriver().getTitle().equals(title));
     }
 }
