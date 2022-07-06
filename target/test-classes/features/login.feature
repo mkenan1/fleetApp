@@ -9,8 +9,8 @@ Feature: Fleet App Login feature
 
   @NV-1307
   Scenario Outline: Login as a truck driver with valid credentials
-    When User enters  truck driver "<username>" and "<password>" and clicks log in button
-    Then User should see the "<pageSubTitle>" for truck driver
+    When User enters "<username>" and "<password>" and clicks log in button
+    Then User should see the "<pageSubTitle>"
 
     Examples:
       | pageSubTitle    | username | password    |
@@ -19,8 +19,8 @@ Feature: Fleet App Login feature
 
   @NV-1341
   Scenario Outline: Login as a sales manager with valid credentials
-    When User  enters sales manager  "<username>" and "<password>" and clicks log in button
-    Then User should see the "<pageSubTitle>" for sales manager
+    When User enters "<username>" and "<password>" and clicks log in button
+    Then User should see the "<pageSubTitle>"
 
     Examples:
       | pageSubTitle | username        | password    |
@@ -29,8 +29,8 @@ Feature: Fleet App Login feature
 
   @NV-1342
   Scenario Outline: Login as a store manager with valid credentials
-    When User  enters store manager "<username>"  and "<password>" and clicks log in button
-    Then User should see the "<pageSubTitle>" for store manager
+    When User enters "<username>" and "<password>" and clicks log in button
+    Then User should see the "<pageSubTitle>"
     Examples:
       | pageSubTitle | username       | password    |
       | Dashboard    | storemanager51 | UserUser123 |
@@ -50,7 +50,8 @@ Feature: Fleet App Login feature
       | username       | password    |
       | abcdefgh       | UserUser123 |
       | storemanager51 | aad3412!    |
-@wip
+
+  @NV-1347
   Scenario Outline: User see error message because of providing no credentials
     When The user tries to login with "<username>" and "<password>"
     Then The user can not login and the page title is "Login"
@@ -59,3 +60,42 @@ Feature: Fleet App Login feature
       |                | UserUser123 |
       | storemanager51 |             |
       |                |             |
+
+
+  @NV-1348
+  Scenario: Users should see their password in bullet signs while typing
+    When The user enters password
+    Then The user will see password in bullet signs
+
+  @NV-1349
+  Scenario: Forgot Password menu
+    When The user clicks Forgot your password? link
+    Then The user lands on Forgot your password? page
+    When The user enters username
+    Then The user should be able to change password
+
+  @NV-1358
+  Scenario: Remember me on this computer
+    When The user clicks Remember me on this computer checkbox
+    And User enters username and password and clicks log in button
+    And The user goes to login page again after closing the page
+    Then The user should be on the home page directly
+
+
+  Scenario: User switches the fields by using Enter key
+    When The user enters username and use enter key
+    And The user enters password and use enter key
+    Then The user should login successfully
+
+
+  Scenario Outline: All users can see their own usernames in profile menu, after successfully login
+    When User enters "<username>" and "<password>" and clicks log in button
+    Then User should see their own "<ownusername>"
+    Examples:
+      | username       | password    | ownusername    |
+      | storemanager51 | UserUser123 | storemanager51 |
+      | storemanager87 | UserUser123 | storemanager87 |
+      | user1          | UserUser123 | user1          |
+      | user12         | UserUser123 | user12         |
+      | storemanager51 | UserUser123 | storemanager51 |
+      | storemanager87 | UserUser123 | storemanager87 |
