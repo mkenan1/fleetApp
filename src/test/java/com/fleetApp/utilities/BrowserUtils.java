@@ -237,7 +237,18 @@ for given duration
     }
 
 
+    public static void closeWindows(){
 
+        Set<String> allWindowsHandles = Driver.getDriver().getWindowHandles();
+
+        for (String each : allWindowsHandles) {
+
+            Driver.getDriver().switchTo().window(each).close();
+
+
+        }
+
+    }
 
 
 }

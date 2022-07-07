@@ -10,6 +10,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Logout_Step_Definitions {
     BasePage loginPage = new BasePage();
@@ -36,6 +37,27 @@ public class Logout_Step_Definitions {
         Driver.getDriver().navigate().back();
     }
 
+    @When("user closes all tabs")
+    public void userClosesAllTabs() {
+       Driver.getDriver().get("https://www.google.com");
+    }
+
+    @And("user goes login page again")
+    public void userGoesLoginPageAgain() {
+
+        Driver.getDriver().navigate().to(ConfigurationReader.getProperty("navfortLoginUrl"));
+        BrowserUtils.sleep(2);
+    }
+
+    @Then("user should be on login page")
+    public void userShouldBeOnLoginPage() {
+        Assert.assertTrue(Driver.getDriver().getTitle().equals("Login"));
+    }
+
+    @When("user waits {int} minutes without action")
+    public void userWaitsMinutesWithoutAction(int arg0) {
+        BrowserUtils.sleep(arg0*60);
+    }
 
 
 

@@ -143,6 +143,8 @@ public class Login_Step_Definitions {
     }
     @When("The user goes to login page again after closing the page")
     public void the_user_goes_to_login_page_again_after_closing_the_page() {
+        dashboardPage.logout();
+        BrowserUtils.sleep(3);
         Driver.getDriver().get(ConfigurationReader.getProperty("navfortDashboard"));
     }
     @Then("The user should be on the home page directly")

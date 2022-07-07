@@ -74,20 +74,21 @@ Feature: Fleet App Login feature
     When The user enters username
     Then The user should be able to change password
 
-  @NV-1358
+
+  @NV-1371
   Scenario: Remember me on this computer
     When The user clicks Remember me on this computer checkbox
     And User enters username and password and clicks log in button
     And The user goes to login page again after closing the page
     Then The user should be on the home page directly
 
-
+  @NV-1358
   Scenario: User switches the fields by using Enter key
     When The user enters username and use enter key
     And The user enters password and use enter key
     Then The user should login successfully
 
-
+  @NV-1372
   Scenario Outline: All users can see their own usernames in profile menu, after successfully login
     When User enters "<username>" and "<password>" and clicks log in button
     Then User should see their own "<ownusername>"
